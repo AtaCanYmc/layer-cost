@@ -82,6 +82,38 @@ export const PRINTER_PRESETS: PrinterPreset[] = [
     price: 12000,
     lifespanHours: 3500,
   },
+  {
+    id: 'anycubic-kobra-3',
+    name: 'Anycubic Kobra 3 Combo',
+    brand: 'Anycubic',
+    powerWatt: 350,
+    price: 18500,
+    lifespanHours: 4000,
+  },
+  {
+    id: 'anycubic-kobra-2-pro',
+    name: 'Anycubic Kobra 2 Pro',
+    brand: 'Anycubic',
+    powerWatt: 300,
+    price: 14000,
+    lifespanHours: 4000,
+  },
+  {
+    id: 'anycubic-kobra-2-neo',
+    name: 'Anycubic Kobra 2 Neo',
+    brand: 'Anycubic',
+    powerWatt: 180,
+    price: 7500,
+    lifespanHours: 3500,
+  },
+  {
+    id: 'anycubic-photon-mono-m5s',
+    name: 'Anycubic Photon Mono M5s (Reçine/Resin)',
+    brand: 'Anycubic',
+    powerWatt: 65,
+    price: 16500,
+    lifespanHours: 3000,
+  },
 ];
 
 export const FILAMENT_PRESETS: FilamentPreset[] = [
