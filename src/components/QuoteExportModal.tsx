@@ -46,37 +46,37 @@ export const QuoteExportModal: React.FC<QuoteExportModalProps> = ({
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-[#070b14]/85 backdrop-blur-md animate-fadeIn">
       <div className="bg-white text-slate-900 rounded-3xl w-full max-w-2xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]">
         {/* Modal Controls (Hidden in Print) */}
-        <div className="no-print flex items-center justify-between px-6 py-4 bg-slate-900 text-white border-b border-slate-800">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-              <FileCheck className="w-4 h-4" />
+        <div className="no-print flex flex-wrap sm:flex-nowrap items-center justify-between gap-2.5 px-4 sm:px-6 py-3 sm:py-4 bg-slate-900 text-white border-b border-slate-800">
+          <div className="flex items-center gap-2">
+            <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+              <FileCheck className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
             </div>
-            <h2 className="text-sm font-extrabold">{t('quoteModalTitle')}</h2>
+            <h2 className="text-xs sm:text-sm font-extrabold truncate">{t('quoteModalTitle')}</h2>
           </div>
 
-          <div className="flex items-center gap-3">
-            <label className="flex items-center gap-2 text-xs text-slate-300 cursor-pointer font-medium">
+          <div className="flex items-center gap-2 sm:gap-3 shrink-0 ml-auto">
+            <label className="flex items-center gap-1.5 text-[11px] sm:text-xs text-slate-300 cursor-pointer font-medium">
               <input
                 type="checkbox"
                 checked={showInternalCosts}
                 onChange={(e) => setShowInternalCosts(e.target.checked)}
                 className="rounded text-indigo-600 focus:ring-indigo-500"
               />
-              <span>{t('showInternalCosts')}</span>
+              <span className="hidden xs:inline">{t('showInternalCosts')}</span>
             </label>
 
             <button
               type="button"
               onClick={handlePrint}
-              className="clay-btn-primary inline-flex items-center gap-1.5 px-4 py-2 text-white text-xs font-extrabold cursor-pointer"
+              className="clay-btn-primary inline-flex items-center gap-1.5 px-3 sm:px-4 py-1.5 sm:py-2 text-white text-xs font-extrabold cursor-pointer"
             >
-              <Printer className="w-4 h-4" />
+              <Printer className="w-3.5 h-3.5" />
               <span>{t('printPdfBtn')}</span>
             </button>
 
             <button
               onClick={onClose}
-              className="clay-stepper-btn p-2 text-slate-400 hover:text-white cursor-pointer"
+              className="clay-stepper-btn p-1.5 sm:p-2 text-slate-400 hover:text-white cursor-pointer"
             >
               <X className="w-4 h-4" />
             </button>
@@ -84,7 +84,7 @@ export const QuoteExportModal: React.FC<QuoteExportModalProps> = ({
         </div>
 
         {/* Printable Document Area */}
-        <div className="p-8 sm:p-10 overflow-y-auto print-card space-y-6 text-slate-800">
+        <div className="p-5 sm:p-10 overflow-y-auto print-card space-y-6 text-slate-800">
           {/* Header */}
           <div className="flex justify-between items-start border-b border-slate-200 pb-6">
             <div>

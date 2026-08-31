@@ -26,7 +26,7 @@ import {
 
 import type { CalculationInputs, InputValue, SavedProfile, Language, Theme, Currency } from './types/calculator';
 import { DEFAULT_INPUTS, type PrinterPreset, type FilamentPreset } from './data/presets';
-import { calculateCost } from './utils/calculator';
+import { calculateCost, formatCurrency } from './utils/calculator';
 import { 
   getCachedExchangeRates, 
   fetchLiveExchangeRates, 
@@ -39,7 +39,9 @@ import {
   WifiOff, 
   CheckCircle2, 
   Layers, 
-  SlidersHorizontal
+  SlidersHorizontal,
+  TrendingUp,
+  FileText
 } from 'lucide-react';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -370,11 +372,14 @@ export function App() {
     }
   };
 
+  // Mobile View Tab State ('inputs' | 'results')
+  const [mobileTab, setMobileTab] = useState<'inputs' | 'results'>('inputs');
+
   return (
-    <div className="min-h-screen bg-[#f0f4f9] dark:bg-[#070b14] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300">
+    <div className="min-h-screen bg-[#f0f4f9] dark:bg-[#070b14] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300 pb-24 lg:pb-0">
       {/* Tactile Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 clay-card px-5 py-3.5 text-slate-900 dark:text-white text-xs font-bold shadow-2xl animate-bounce">
+        <div className="fixed bottom-20 lg:bottom-5 right-5 z-50 flex items-center gap-2.5 clay-card px-5 py-3.5 text-slate-900 dark:text-white text-xs font-bold shadow-2xl animate-bounce">
           <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
@@ -397,12 +402,46 @@ export function App() {
         isRatesLive={isRatesLive}
       />
 
+      {/* Mobile Top Segmented Tab Switcher (< lg screens) */}
+      <div className="lg:hidden max-w-7xl mx-auto px-4 pt-4 w-full">
+        <div className="clay-inset p-1.5 rounded-2xl grid grid-cols-2 gap-1.5 shadow-inner">
+          <button
+            type="button"
+            onClick={() => setMobileTab('inputs')}
+            className={`py-2.5 px-3 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              mobileTab === 'inputs'
+                ? 'clay-pill-active'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+            }`}
+          >
+            <SlidersHorizontal className="w-4 h-4 text-indigo-500 dark:text-indigo-400" />
+            <span>{t('mobileParams')}</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => setMobileTab('results')}
+            className={`py-2.5 px-3 rounded-xl text-xs font-extrabold flex items-center justify-center gap-2 transition-all cursor-pointer ${
+              mobileTab === 'results'
+                ? 'clay-pill-active'
+                : 'text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
+            }`}
+          >
+            <TrendingUp className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
+            <span>{t('mobileResults')}</span>
+            <span className="font-mono text-[11px] text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-1.5 py-0.5 rounded-md">
+              {formatCurrency(results.finalPrice, inputs.currency, lang)}
+            </span>
+          </button>
+        </div>
+      </div>
+
       {/* Main Content Layout */}
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-4 sm:py-8">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
           
-          {/* Left Column: Input Categories (7 cols on lg) */}
-          <div className="lg:col-span-7 space-y-6">
+          {/* Left Column: Input Categories (7 cols on lg, toggled on mobile) */}
+          <div className={`lg:col-span-7 space-y-6 ${mobileTab === 'results' ? 'hidden lg:block' : 'block'}`}>
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
@@ -446,8 +485,8 @@ export function App() {
             />
           </div>
 
-          {/* Right Column: Sticky Results & Breakdown (5 cols on lg) */}
-          <div className="lg:col-span-5 lg:sticky lg:top-20 space-y-6">
+          {/* Right Column: Sticky Results & Breakdown (5 cols on lg, toggled on mobile) */}
+          <div id="results-section" className={`lg:col-span-5 lg:sticky lg:top-20 space-y-6 ${mobileTab === 'inputs' ? 'hidden lg:block' : 'block'}`}>
             <ResultsOverview
               inputs={inputs}
               results={results}
@@ -460,6 +499,57 @@ export function App() {
 
         </div>
       </main>
+
+      {/* Floating Tactile Mobile Bottom Bar (< lg screens when in inputs tab) */}
+      <div className="lg:hidden fixed bottom-3 left-3 right-3 z-30 animate-fadeIn">
+        <div className="clay-hero-card p-3 px-4 flex items-center justify-between shadow-2xl backdrop-blur-xl border border-white/40 dark:border-white/10">
+          <div className="min-w-0 pr-2">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
+              {t('recommendedPrice')}
+            </span>
+            <div className="text-lg sm:text-xl font-black font-mono text-slate-900 dark:text-white truncate">
+              {formatCurrency(results.finalPrice, inputs.currency, lang)}
+            </div>
+          </div>
+
+          <div className="flex items-center gap-2 shrink-0">
+            {mobileTab === 'inputs' ? (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileTab('results');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="clay-btn-primary px-3.5 py-2 text-white text-xs font-extrabold flex items-center gap-1.5 cursor-pointer"
+              >
+                <TrendingUp className="w-4 h-4" />
+                <span>{t('mobileResults')}</span>
+              </button>
+            ) : (
+              <button
+                type="button"
+                onClick={() => {
+                  setMobileTab('inputs');
+                  window.scrollTo({ top: 0, behavior: 'smooth' });
+                }}
+                className="clay-btn-secondary px-3.5 py-2 text-xs font-bold flex items-center gap-1.5 cursor-pointer"
+              >
+                <SlidersHorizontal className="w-4 h-4 text-indigo-500" />
+                <span>{t('mobileParams')}</span>
+              </button>
+            )}
+
+            <button
+              type="button"
+              onClick={() => setIsQuoteOpen(true)}
+              className="clay-btn-secondary p-2 text-emerald-600 dark:text-emerald-400 cursor-pointer"
+              title={t('quoteSummary')}
+            >
+              <FileText className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      </div>
 
       {/* Modals */}
       <SavedProfilesModal
