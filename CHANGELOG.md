@@ -7,6 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
+## [1.2.0](https://github.com/AtaCanYmc/layer-cost/compare/layer-cost-v1.1.0...layer-cost-v1.2.0) (2026-08-31)
+
+
+### Features
+
+* add new UI components including ClayCard, ClayHeader, ClayInputField, ClaySliderField, and ClayStepperField for improved layout and functionality ([dced017](https://github.com/AtaCanYmc/layer-cost/commit/dced01766f1e8052dfc5074bd74ae31fea213ff6))
+* add support for German and French languages, update language handling and translations ([8bf3569](https://github.com/AtaCanYmc/layer-cost/commit/8bf3569a7fcf74ca0f54f104355aa6fb663ad1f4))
+* enhance README with multilingual support, real-time currency exchange, and updated installation instructions ([f9002c8](https://github.com/AtaCanYmc/layer-cost/commit/f9002c890a2e433d50d2786053ad1221759123ec))
+* refactor ClayHeader to use ClaySelect component and enhance preset options with badges ([c3ec372](https://github.com/AtaCanYmc/layer-cost/commit/c3ec37225a7fb8416ccf53c6a05131c2083a86e5))
+* update favicon paths and manifest configuration for improved asset handling ([cef089c](https://github.com/AtaCanYmc/layer-cost/commit/cef089c9cf4baa98ef84ef3aa83a204e91345290))
+
 ## [1.1.0](https://github.com/AtaCanYmc/layer-cost/compare/layer-cost-v1.0.0...layer-cost-v1.1.0) (2026-08-31)
 
 
