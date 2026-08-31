@@ -8,11 +8,25 @@ export const translations = {
     pwaReady: 'PWA',
     profiles: 'Profiller',
     quoteSummary: 'Teklif Özeti',
+    settings: 'Ayarlar',
     reset: 'Sıfırla',
     resetConfirm: 'Tüm değerleri varsayılan fabrika ayarlarına sıfırlamak istediğinize emin misiniz?',
     install: 'Yükle',
     themeLight: 'Aydınlık Mod',
     themeDark: 'Karanlık Mod',
+    
+    // Settings Modal
+    settingsTitle: 'Uygulama Ayarları',
+    settingsSubtitle: 'Görünüm, dil ve kur tercihlerinizi özelleştirin',
+    themeSection: 'Tema & Görünüm',
+    langSection: 'Dil Seçimi (Language)',
+    currencySection: 'Para Birimi & Canlı Kur',
+    aboutSection: 'Hakkında & Sürüm',
+    version: 'Sürüm',
+    installedPwa: 'PWA Uygulama',
+    installAppDesc: 'Çevrimdışı kullanım için masaüstüne veya ana ekrana yükleyin',
+    liveRatesDesc: 'Döviz kurları otomatik olarak internet üzerinden güncellenir.',
+    close: 'Kapat',
     
     // Status
     online: 'PWA Çevrimiçi',
@@ -164,11 +178,25 @@ export const translations = {
     pwaReady: 'PWA',
     profiles: 'Profiles',
     quoteSummary: 'Quote Summary',
+    settings: 'Settings',
     reset: 'Reset',
     resetConfirm: 'Are you sure you want to reset all values to factory defaults?',
     install: 'Install',
     themeLight: 'Light Mode',
     themeDark: 'Dark Mode',
+
+    // Settings Modal
+    settingsTitle: 'Application Settings',
+    settingsSubtitle: 'Customize your theme, language, and currency preferences',
+    themeSection: 'Theme & Appearance',
+    langSection: 'Language Selection',
+    currencySection: 'Currency & Live Rates',
+    aboutSection: 'About & Version',
+    version: 'Version',
+    installedPwa: 'PWA App',
+    installAppDesc: 'Install to desktop or home screen for full offline support',
+    liveRatesDesc: 'Exchange rates are automatically updated live over the internet.',
+    close: 'Close',
 
     // Status
     online: 'PWA Online',
