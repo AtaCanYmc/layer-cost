@@ -1,10 +1,5 @@
 import React from 'react';
-import { Sparkles } from 'lucide-react';
-
-interface PresetOption {
-  id: string;
-  label: string;
-}
+import { ClaySelect, type ClaySelectOption } from './ClaySelect';
 
 interface ClayHeaderProps {
   icon: React.ReactNode;
@@ -13,7 +8,7 @@ interface ClayHeaderProps {
   title: string;
   subtitle: string;
   presetPlaceholder?: string;
-  presetOptions?: PresetOption[];
+  presetOptions?: ClaySelectOption[];
   onSelectPreset?: (id: string) => void;
 }
 
@@ -44,25 +39,12 @@ export const ClayHeader: React.FC<ClayHeaderProps> = ({
       </div>
 
       {presetOptions && presetOptions.length > 0 && onSelectPreset && (
-        <div className="flex items-center gap-1.5 w-full sm:w-auto">
-          <Sparkles className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400 hidden md:inline shrink-0" />
-          <select
-            className="clay-input text-xs text-slate-800 dark:text-slate-200 rounded-xl px-3 py-2 cursor-pointer font-bold w-full sm:w-auto truncate"
-            onChange={(e) => {
-              if (e.target.value) onSelectPreset(e.target.value);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              {presetPlaceholder || '⚡ Preset Seç'}
-            </option>
-            {presetOptions.map((opt) => (
-              <option key={opt.id} value={opt.id} className="bg-white dark:bg-slate-900 text-slate-900 dark:text-white">
-                {opt.label}
-              </option>
-            ))}
-          </select>
-        </div>
+        <ClaySelect
+          placeholder={presetPlaceholder}
+          options={presetOptions}
+          onChange={onSelectPreset}
+          className="w-full sm:w-auto shrink-0"
+        />
       )}
     </div>
   );

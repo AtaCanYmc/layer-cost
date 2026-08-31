@@ -34,7 +34,8 @@ export const FilamentSection: React.FC<FilamentSectionProps> = ({
 
   const presetOptions = FILAMENT_PRESETS.map((p) => ({
     id: p.id,
-    label: `${p.name} - ${formatCurrency(p.spoolPrice, inputs.currency, lang)}`,
+    label: p.name,
+    badge: formatCurrency(p.spoolPrice, inputs.currency, lang),
   }));
 
   const filamentTypes = ['PLA', 'PLA+', 'PETG', 'ABS', 'TPU', 'ASA', lang === 'en' ? 'Resin' : 'Reçine'];

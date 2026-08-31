@@ -50,7 +50,8 @@ export const PrinterSection: React.FC<PrinterSectionProps> = ({
 
   const presetOptions = PRINTER_PRESETS.map((p) => ({
     id: p.id,
-    label: `${p.name} (${p.powerWatt}W)`,
+    label: p.name,
+    badge: `${p.powerWatt}W`,
   }));
 
   return (
