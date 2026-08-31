@@ -4,7 +4,6 @@ import {
   Bookmark, 
   FileText, 
   Download, 
-  Layers,
   Sun,
   Moon
 } from 'lucide-react';
@@ -45,10 +44,10 @@ export const Header: React.FC<HeaderProps> = ({
   return (
     <header className="sticky top-0 z-30 backdrop-blur-md bg-slate-100/90 dark:bg-[#0b101d]/90 border-b border-slate-200 dark:border-slate-800/80 shadow-md transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
-        {/* Brand with 3D Clay Icon */}
+        {/* Brand with 3D Clay Logo */}
         <div className="flex items-center gap-3">
-          <div className="w-11 h-11 rounded-2xl bg-gradient-to-br from-indigo-500 via-indigo-600 to-purple-600 shadow-[4px_5px_12px_rgba(79,70,229,0.4),inset_2px_2px_3px_rgba(255,255,255,0.35),inset_-2px_-3px_5px_rgba(0,0,0,0.4)] flex items-center justify-center">
-            <Layers className="w-5 h-5 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.3)]" />
+          <div className="w-11 h-11 rounded-2xl overflow-hidden shadow-[4px_5px_12px_rgba(79,70,229,0.35),inset_2px_2px_3px_rgba(255,255,255,0.35),inset_-2px_-3px_5px_rgba(0,0,0,0.4)] flex items-center justify-center bg-[#23304c] p-0.5">
+            <img src="/logo.png" alt="LayerCost Logo" className="w-full h-full object-cover rounded-[14px]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
