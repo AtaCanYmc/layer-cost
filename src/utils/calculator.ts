@@ -81,9 +81,14 @@ export const formatCurrency = (amount: number, currency: Currency = 'TRY', lang:
     GBP: '£',
   };
 
-  const locale = lang === 'en' ? 'en-US' : 'tr-TR';
+  const localeMap: Record<Language, string> = {
+    tr: 'tr-TR',
+    en: 'en-US',
+    de: 'de-DE',
+    fr: 'fr-FR',
+  };
 
-  const formatted = new Intl.NumberFormat(locale, {
+  const formatted = new Intl.NumberFormat(localeMap[lang] || 'tr-TR', {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(isNaN(amount) ? 0 : amount);
@@ -103,6 +108,16 @@ export const formatHoursMinutes = (hours: number, minutes: number, lang: Languag
     if (h === 0) return `${m} min`;
     if (m === 0) return `${h} hrs`;
     return `${h} hrs ${m} min`;
+  }
+  if (lang === 'de') {
+    if (h === 0) return `${m} Min`;
+    if (m === 0) return `${h} Std`;
+    return `${h} Std ${m} Min`;
+  }
+  if (lang === 'fr') {
+    if (h === 0) return `${m} min`;
+    if (m === 0) return `${h} h`;
+    return `${h} h ${m} min`;
   }
 
   if (h === 0) return `${m} dk`;

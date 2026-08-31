@@ -29,7 +29,13 @@ export const QuoteExportModal: React.FC<QuoteExportModalProps> = ({
   const [showInternalCosts, setShowInternalCosts] = useState(false);
   const [quoteNumber] = useState(() => `#3D-${Date.now().toString().slice(-6)}`);
   const [today] = useState(() => {
-    return new Date().toLocaleDateString(lang === 'en' ? 'en-US' : 'tr-TR', {
+    const localeMap: Record<Language, string> = {
+      tr: 'tr-TR',
+      en: 'en-US',
+      de: 'de-DE',
+      fr: 'fr-FR',
+    };
+    return new Date().toLocaleDateString(localeMap[lang] || 'tr-TR', {
       day: 'numeric',
       month: 'long',
       year: 'numeric',

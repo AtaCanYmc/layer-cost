@@ -84,8 +84,12 @@ export function App() {
   const [lang, setLang] = useState<Language>(() => {
     try {
       const savedLang = localStorage.getItem(STORAGE_KEY_LANG) as Language;
-      if (savedLang === 'tr' || savedLang === 'en') return savedLang;
-      if (typeof navigator !== 'undefined' && !navigator.language.startsWith('tr')) {
+      if (savedLang === 'tr' || savedLang === 'en' || savedLang === 'de' || savedLang === 'fr') return savedLang;
+      if (typeof navigator !== 'undefined') {
+        const browserLang = navigator.language.toLowerCase();
+        if (browserLang.startsWith('tr')) return 'tr';
+        if (browserLang.startsWith('de')) return 'de';
+        if (browserLang.startsWith('fr')) return 'fr';
         return 'en';
       }
     } catch {

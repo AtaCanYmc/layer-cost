@@ -150,46 +150,88 @@ export const SettingsModal: React.FC<SettingsModalProps> = ({
                 {t('langSection')}
               </h3>
             </div>
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3">
               <button
                 type="button"
                 onClick={() => onLanguageChange('tr')}
-                className={`p-3.5 rounded-2xl flex items-center gap-3 transition-all cursor-pointer ${
+                className={`p-3 rounded-2xl flex items-center gap-2.5 transition-all cursor-pointer ${
                   lang === 'tr'
                     ? 'clay-hero-card border-2 border-indigo-500 ring-2 ring-indigo-500/20'
                     : 'clay-inset hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
                 }`}
               >
                 <span className="text-xl">🇹🇷</span>
-                <div className="text-left">
-                  <span className="text-xs font-black block text-slate-900 dark:text-white">
+                <div className="text-left min-w-0 flex-1">
+                  <span className="text-xs font-black block text-slate-900 dark:text-white truncate">
                     Türkçe
                   </span>
-                  <span className="text-[10px] text-slate-500">TR</span>
+                  <span className="text-[10px] text-slate-500 font-bold">TR</span>
                 </div>
                 {lang === 'tr' && (
-                  <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 ml-auto shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
                 )}
               </button>
 
               <button
                 type="button"
                 onClick={() => onLanguageChange('en')}
-                className={`p-3.5 rounded-2xl flex items-center gap-3 transition-all cursor-pointer ${
+                className={`p-3 rounded-2xl flex items-center gap-2.5 transition-all cursor-pointer ${
                   lang === 'en'
                     ? 'clay-hero-card border-2 border-indigo-500 ring-2 ring-indigo-500/20'
                     : 'clay-inset hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
                 }`}
               >
                 <span className="text-xl">🇬🇧</span>
-                <div className="text-left">
-                  <span className="text-xs font-black block text-slate-900 dark:text-white">
+                <div className="text-left min-w-0 flex-1">
+                  <span className="text-xs font-black block text-slate-900 dark:text-white truncate">
                     English
                   </span>
-                  <span className="text-[10px] text-slate-500">EN</span>
+                  <span className="text-[10px] text-slate-500 font-bold">EN</span>
                 </div>
                 {lang === 'en' && (
-                  <Check className="w-4 h-4 text-indigo-600 dark:text-indigo-400 ml-auto shrink-0" />
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onLanguageChange('de')}
+                className={`p-3 rounded-2xl flex items-center gap-2.5 transition-all cursor-pointer ${
+                  lang === 'de'
+                    ? 'clay-hero-card border-2 border-indigo-500 ring-2 ring-indigo-500/20'
+                    : 'clay-inset hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
+                }`}
+              >
+                <span className="text-xl">🇩🇪</span>
+                <div className="text-left min-w-0 flex-1">
+                  <span className="text-xs font-black block text-slate-900 dark:text-white truncate">
+                    Deutsch
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-bold">DE</span>
+                </div>
+                {lang === 'de' && (
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
+                )}
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onLanguageChange('fr')}
+                className={`p-3 rounded-2xl flex items-center gap-2.5 transition-all cursor-pointer ${
+                  lang === 'fr'
+                    ? 'clay-hero-card border-2 border-indigo-500 ring-2 ring-indigo-500/20'
+                    : 'clay-inset hover:bg-slate-200/50 dark:hover:bg-slate-800/50'
+                }`}
+              >
+                <span className="text-xl">🇫🇷</span>
+                <div className="text-left min-w-0 flex-1">
+                  <span className="text-xs font-black block text-slate-900 dark:text-white truncate">
+                    Français
+                  </span>
+                  <span className="text-[10px] text-slate-500 font-bold">FR</span>
+                </div>
+                {lang === 'fr' && (
+                  <Check className="w-3.5 h-3.5 text-indigo-600 dark:text-indigo-400 shrink-0" />
                 )}
               </button>
             </div>

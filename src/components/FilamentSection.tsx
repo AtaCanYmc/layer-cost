@@ -38,7 +38,8 @@ export const FilamentSection: React.FC<FilamentSectionProps> = ({
     badge: formatCurrency(p.spoolPrice, inputs.currency, lang),
   }));
 
-  const filamentTypes = ['PLA', 'PLA+', 'PETG', 'ABS', 'TPU', 'ASA', lang === 'en' ? 'Resin' : 'Reçine'];
+  const resinLabel = lang === 'tr' ? 'Reçine' : lang === 'de' ? 'Harz' : lang === 'fr' ? 'Résine' : 'Resin';
+  const filamentTypes = ['PLA', 'PLA+', 'PETG', 'ABS', 'TPU', 'ASA', resinLabel];
 
   return (
     <ClayCard>

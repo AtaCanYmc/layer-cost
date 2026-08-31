@@ -45,7 +45,7 @@ export const LaborSection: React.FC<LaborSectionProps> = ({
 
           <ClayStepperField
             value={inputs.laborMinutes}
-            unit={lang === 'en' ? 'min' : 'dk'}
+            unit={t('minutes')}
             onChange={(val) => onChange('laborMinutes', val)}
             onStep={(delta) => onChange('laborMinutes', Math.max(0, inputs.laborMinutes + delta))}
             min={0}
@@ -58,7 +58,7 @@ export const LaborSection: React.FC<LaborSectionProps> = ({
           <ClayInputField
             label={t('hourlyRate')}
             labelIcon={<UserCheck className="w-3.5 h-3.5 text-emerald-500" />}
-            topRightBadge={`${inputs.currency}/${lang === 'en' ? 'hr' : 'saat'}`}
+            topRightBadge={`${inputs.currency}/${t('hours')}`}
             type="number"
             value={inputs.hourlyLaborRate}
             onChange={(val) => onChange('hourlyLaborRate', Math.max(0, parseFloat(val) || 0))}

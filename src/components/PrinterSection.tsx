@@ -89,7 +89,7 @@ export const PrinterSection: React.FC<PrinterSectionProps> = ({
               <span>{t('printDuration')}</span>
             </label>
             <span className="text-[11px] font-extrabold text-sky-600 dark:text-sky-400 font-mono clay-pill-active px-2.5 py-0.5 rounded-full">
-              {inputs.printHours} {lang === 'en' ? 'hrs' : 'sa'} {inputs.printMinutes} {lang === 'en' ? 'min' : 'dk'}
+              {inputs.printHours} {t('hours')} {inputs.printMinutes} {t('minutes')}
             </span>
           </div>
 
@@ -173,7 +173,7 @@ export const PrinterSection: React.FC<PrinterSectionProps> = ({
             unit={t('hours')}
             min={100}
             step={500}
-            hint={`${t('depreciationRate')}: ~${formatCurrency(depreciationPerHour, inputs.currency, lang)}/${lang === 'en' ? 'hr' : 'saat'}`}
+            hint={`${t('depreciationRate')}: ~${formatCurrency(depreciationPerHour, inputs.currency, lang)}/${t('hours')}`}
           />
         </div>
       </div>
