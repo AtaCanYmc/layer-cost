@@ -276,10 +276,10 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
-      {/* Toast Notification */}
+    <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+      {/* Tactile Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2 bg-slate-900 border border-indigo-500/50 text-white text-xs px-4 py-3 rounded-xl shadow-2xl animate-bounce">
+        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 clay-card px-5 py-3.5 text-white text-xs font-bold shadow-2xl animate-bounce">
           <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
@@ -306,12 +306,12 @@ export function App() {
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <SlidersHorizontal className="w-4 h-4 text-indigo-400" />
-                <h2 className="text-sm font-bold uppercase tracking-wider text-slate-300">
+                <h2 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
                   Maliyet & Baskı Parametreleri
                 </h2>
               </div>
-              <span className="text-xs text-slate-500">
-                Tüm değişiklikler anlık hesaplanır
+              <span className="text-xs text-slate-500 font-medium">
+                Değişiklikler anlık hesaplanır
               </span>
             </div>
 
@@ -376,26 +376,26 @@ export function App() {
         currency={inputs.currency}
       />
 
-      {/* Modern Footer */}
-      <footer className="border-t border-slate-850 bg-slate-950/80 mt-12 py-6 text-xs text-slate-500 no-print">
+      {/* Modern Clay Footer */}
+      <footer className="border-t border-slate-900 bg-[#070b14]/90 mt-12 py-6 text-xs text-slate-500 no-print">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
             <Layers className="w-4 h-4 text-indigo-400" />
-            <span className="font-semibold text-slate-300">LayerCost</span>
-            <span>— 3D Baskı Maliyet & Fiyatlandırma Sistemi</span>
+            <span className="font-bold text-slate-300">LayerCost</span>
+            <span>— Dokunsal 3D Baskı Maliyet & Fiyatlandırma Sistemi</span>
           </div>
 
           <div className="flex items-center gap-4">
-            <div className="flex items-center gap-1.5">
+            <div className="flex items-center gap-2 clay-inset px-3 py-1 rounded-full">
               {isOnline ? (
                 <>
                   <Wifi className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400/90 text-[11px]">Çevrimiçi (PWA Hazır)</span>
+                  <span className="text-emerald-400 font-bold text-[11px]">PWA Çevrimiçi</span>
                 </>
               ) : (
                 <>
                   <WifiOff className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-amber-400/90 text-[11px]">Çevrimdışı Mod (Offline Aktif)</span>
+                  <span className="text-amber-400 font-bold text-[11px]">PWA Çevrimdışı Aktif</span>
                 </>
               )}
             </div>

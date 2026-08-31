@@ -12,31 +12,31 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
   onChange,
 }) => {
   return (
-    <div className="bg-slate-900/70 border border-slate-800/80 rounded-2xl p-5 md:p-6 shadow-xl backdrop-blur-sm relative overflow-hidden group hover:border-slate-700/80 transition-all">
-      {/* Decorative gradient highlight */}
-      <div className="absolute top-0 right-0 -mt-8 -mr-8 w-32 h-32 bg-emerald-500/10 rounded-full blur-2xl pointer-events-none" />
-
-      <div className="flex items-center justify-between gap-3 mb-5 border-b border-slate-800/60 pb-3">
-        <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
-            <TrendingUp className="w-5 h-5" />
+    <div className="clay-card p-6 relative overflow-hidden transition-all duration-300">
+      {/* Header */}
+      <div className="flex items-center justify-between gap-3 mb-6 pb-4 border-b border-slate-800/80">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-2xl bg-gradient-to-br from-emerald-500 to-teal-600 shadow-[3px_4px_10px_rgba(16,185,129,0.35),inset_2px_2px_3px_rgba(255,255,255,0.3),inset_-2px_-3px_5px_rgba(0,0,0,0.4)] flex items-center justify-center">
+            <TrendingUp className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h2 className="text-base font-semibold text-white">Risk, Kar & Proje</h2>
-            <p className="text-xs text-slate-400">Fire payı, kar marjı ve proje bilgisi</p>
+            <h2 className="text-base font-extrabold text-white tracking-tight">
+              Risk, Kar & Proje Bilgisi
+            </h2>
+            <p className="text-xs text-slate-400 font-medium">Fire payı, kar marjı ve müşteri detayları</p>
           </div>
         </div>
       </div>
 
       <div className="space-y-4">
         {/* Hata / Fire Payı (%) */}
-        <div className="bg-slate-950/40 border border-slate-800/80 rounded-xl p-3.5">
+        <div className="clay-inset p-4 rounded-2xl">
           <div className="flex items-center justify-between mb-2">
-            <label className="flex items-center gap-1.5 text-xs font-medium text-slate-300">
-              <AlertTriangle className="w-3.5 h-3.5 text-rose-400" />
+            <label className="flex items-center gap-1.5 text-xs font-bold text-slate-200">
+              <AlertTriangle className="w-4 h-4 text-rose-400" />
               <span>Hata / Fire / Risk Payı</span>
             </label>
-            <span className="text-xs font-bold text-rose-400 font-mono">
+            <span className="text-xs font-extrabold text-rose-400 font-mono clay-pill-active px-2.5 py-0.5 rounded-full">
               %{inputs.failureRatePercent}
             </span>
           </div>
@@ -49,7 +49,7 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
               step="1"
               value={inputs.failureRatePercent || 0}
               onChange={(e) => onChange('failureRatePercent', parseFloat(e.target.value) || 0)}
-              className="w-full accent-rose-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              className="clay-slider w-full cursor-pointer"
             />
             <input
               type="number"
@@ -57,27 +57,27 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
               max="100"
               value={inputs.failureRatePercent || 0}
               onChange={(e) => onChange('failureRatePercent', Math.max(0, parseFloat(e.target.value) || 0))}
-              className="w-16 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-center text-white font-mono"
+              className="clay-input w-16 px-2 py-1.5 text-xs text-center text-white font-mono font-bold"
             />
           </div>
-          <p className="text-[10px] text-slate-500 mt-1.5">
+          <p className="text-[10px] text-slate-500 font-medium mt-2">
             Baskı bozulmaları, nozül tıkanması ve test baskıları için güvenlik tamponu (Önerilen: %5 - %15)
           </p>
         </div>
 
         {/* Kar Marjı (%) */}
-        <div className="bg-slate-950/40 border border-slate-800/80 rounded-xl p-3.5">
+        <div className="clay-inset p-4 rounded-2xl">
           <div className="flex items-center justify-between mb-2">
-            <label className="flex items-center gap-1.5 text-xs font-medium text-slate-300">
-              <TrendingUp className="w-3.5 h-3.5 text-emerald-400" />
+            <label className="flex items-center gap-1.5 text-xs font-bold text-slate-200">
+              <TrendingUp className="w-4 h-4 text-emerald-400" />
               <span>Hedef Kar Marjı</span>
             </label>
-            <span className="text-xs font-bold text-emerald-400 font-mono">
+            <span className="text-xs font-extrabold text-emerald-400 font-mono clay-pill-active px-2.5 py-0.5 rounded-full">
               %{inputs.profitMarginPercent}
             </span>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 mb-2">
             <input
               type="range"
               min="0"
@@ -85,7 +85,7 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
               step="5"
               value={inputs.profitMarginPercent || 0}
               onChange={(e) => onChange('profitMarginPercent', parseFloat(e.target.value) || 0)}
-              className="w-full accent-emerald-500 bg-slate-800 h-2 rounded-lg cursor-pointer"
+              className="clay-slider w-full cursor-pointer"
             />
             <input
               type="number"
@@ -93,19 +93,21 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
               max="500"
               value={inputs.profitMarginPercent || 0}
               onChange={(e) => onChange('profitMarginPercent', Math.max(0, parseFloat(e.target.value) || 0))}
-              className="w-16 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-center text-white font-mono"
+              className="clay-input w-16 px-2 py-1.5 text-xs text-center text-white font-mono font-bold"
             />
           </div>
-          <div className="flex gap-1.5 mt-2">
+
+          {/* Quick Margin Pills */}
+          <div className="flex gap-1.5 flex-wrap">
             {[20, 35, 50, 75, 100].map((margin) => (
               <button
                 key={margin}
                 type="button"
                 onClick={() => onChange('profitMarginPercent', margin)}
-                className={`text-[11px] px-2 py-0.5 rounded-md border transition cursor-pointer ${
+                className={`text-xs px-2.5 py-1 rounded-lg font-bold transition-all cursor-pointer ${
                   inputs.profitMarginPercent === margin
-                    ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
-                    : 'bg-slate-950/40 text-slate-400 border-slate-800 hover:border-slate-700 hover:text-slate-300'
+                    ? 'clay-pill-active text-emerald-300 border-emerald-500/40 shadow-inner'
+                    : 'clay-pill-inactive text-slate-400'
                 }`}
               >
                 %{margin}
@@ -117,8 +119,8 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
         {/* Proje & Müşteri Alanları */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
           <div>
-            <label className="flex items-center gap-1 text-[11px] font-medium text-slate-400 mb-1">
-              <FolderGit2 className="w-3 h-3 text-slate-400" />
+            <label className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+              <FolderGit2 className="w-3.5 h-3.5 text-slate-400" />
               Proje / Model Adı
             </label>
             <input
@@ -126,13 +128,13 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
               value={inputs.projectName}
               onChange={(e) => onChange('projectName', e.target.value)}
               placeholder="örn: Dron Gövdesi V2"
-              className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="clay-input w-full px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 font-medium"
             />
           </div>
 
           <div>
-            <label className="flex items-center gap-1 text-[11px] font-medium text-slate-400 mb-1">
-              <User className="w-3 h-3 text-slate-400" />
+            <label className="flex items-center gap-1 text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-1.5">
+              <User className="w-3.5 h-3.5 text-slate-400" />
               Müşteri Adı (Opsiyonel)
             </label>
             <input
@@ -140,7 +142,7 @@ export const PricingRiskSection: React.FC<PricingRiskSectionProps> = ({
               value={inputs.clientName}
               onChange={(e) => onChange('clientName', e.target.value)}
               placeholder="örn: Ahmet Yılmaz"
-              className="w-full bg-slate-950/60 border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="clay-input w-full px-3.5 py-2 text-xs text-slate-100 placeholder-slate-500 font-medium"
             />
           </div>
         </div>

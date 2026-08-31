@@ -16,8 +16,8 @@ export const CostBreakdownChart: React.FC<CostBreakdownChartProps> = ({
       label: 'Filament',
       cost: results.filamentCost,
       percent: results.percentages.filament,
-      color: 'bg-pink-500',
-      textColor: 'text-pink-400',
+      color: 'bg-rose-500',
+      textColor: 'text-rose-400',
     },
     {
       label: 'Elektrik',
@@ -55,8 +55,8 @@ export const CostBreakdownChart: React.FC<CostBreakdownChartProps> = ({
       label: 'Fire Payı',
       cost: results.riskAmount,
       percent: results.percentages.risk,
-      color: 'bg-rose-500',
-      textColor: 'text-rose-400',
+      color: 'bg-orange-500',
+      textColor: 'text-orange-400',
     },
     {
       label: 'Net Kar',
@@ -68,20 +68,22 @@ export const CostBreakdownChart: React.FC<CostBreakdownChartProps> = ({
   ];
 
   return (
-    <div className="bg-slate-950/60 border border-slate-800/90 rounded-xl p-4">
-      <div className="flex items-center justify-between text-xs font-semibold text-slate-300 mb-2.5">
-        <span>Fiyat & Maliyet Dağılımı</span>
-        <span className="text-slate-400 font-mono text-[11px]">Toplam: {formatCurrency(results.finalPrice, currency)}</span>
+    <div className="clay-card p-5">
+      <div className="flex items-center justify-between text-xs font-bold text-slate-200 mb-3">
+        <span className="uppercase tracking-wider text-[11px]">Fiyat & Maliyet Dağılımı</span>
+        <span className="text-slate-400 font-mono text-[11px] clay-pill-active px-2.5 py-0.5 rounded-full">
+          Toplam: {formatCurrency(results.finalPrice, currency)}
+        </span>
       </div>
 
-      {/* Proportional Multi-Segment Bar */}
-      <div className="w-full h-3.5 bg-slate-900 rounded-full overflow-hidden flex p-0.5 border border-slate-800 shadow-inner mb-4">
+      {/* 3D Cylindrical Segmented Bar */}
+      <div className="w-full h-4 bg-[#070b14] rounded-full overflow-hidden flex p-0.5 shadow-inner border border-white/5 mb-4">
         {items.map((item, idx) => {
           if (item.percent <= 0) return null;
           return (
             <div
               key={idx}
-              className={`${item.color} h-full transition-all duration-300 first:rounded-l-full last:rounded-r-full hover:opacity-90 relative group cursor-pointer`}
+              className={`${item.color} h-full transition-all duration-300 first:rounded-l-full last:rounded-r-full shadow-[inset_1px_1px_2px_rgba(255,255,255,0.4),inset_-1px_-1px_2px_rgba(0,0,0,0.3)] hover:opacity-90 cursor-pointer`}
               style={{ width: `${Math.max(1.5, item.percent)}%` }}
               title={`${item.label}: ${formatCurrency(item.cost, currency)} (%${item.percent.toFixed(1)})`}
             />
@@ -89,22 +91,22 @@ export const CostBreakdownChart: React.FC<CostBreakdownChartProps> = ({
         })}
       </div>
 
-      {/* Grid of legend items */}
-      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+      {/* Grid of Clay Stat Cushions */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
         {items.map((item, idx) => (
           <div
             key={idx}
-            className="flex items-center justify-between p-2 rounded-lg bg-slate-900/60 border border-slate-800/60 text-xs"
+            className="clay-stat-cushion p-2.5 flex items-center justify-between text-xs transition-all hover:scale-[1.02]"
           >
-            <div className="flex items-center gap-1.5 min-w-0">
-              <span className={`w-2.5 h-2.5 rounded-full ${item.color} shrink-0`} />
-              <span className="text-slate-300 truncate text-[11px]">{item.label}</span>
+            <div className="flex items-center gap-2 min-w-0">
+              <span className={`w-2.5 h-2.5 rounded-full ${item.color} shadow-sm shrink-0`} />
+              <span className="text-slate-300 font-medium truncate text-[11px]">{item.label}</span>
             </div>
             <div className="text-right shrink-0">
-              <div className="font-semibold text-slate-200 font-mono text-[11px]">
+              <div className="font-extrabold text-slate-100 font-mono text-[11px]">
                 {formatCurrency(item.cost, currency)}
               </div>
-              <div className={`text-[10px] ${item.textColor} font-mono`}>
+              <div className={`text-[10px] ${item.textColor} font-mono font-bold`}>
                 %{item.percent.toFixed(1)}
               </div>
             </div>

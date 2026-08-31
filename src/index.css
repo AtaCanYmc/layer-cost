@@ -10,26 +10,232 @@
   }
 }
 
-/* Custom modern scrollbar */
+/* ==========================================================================
+   CLAYMORPHISM CORE UTILITY CLASSES
+   ========================================================================== */
+
+/* Main Clay Surface Card */
+.clay-card {
+  background: #131b2e;
+  border-radius: 1.5rem;
+  box-shadow: 
+    10px 14px 28px -4px rgba(0, 0, 0, 0.55),
+    -4px -4px 14px 0 rgba(255, 255, 255, 0.03),
+    inset 2px 2px 3px 0 rgba(255, 255, 255, 0.1),
+    inset -3px -4px 8px 0 rgba(0, 0, 0, 0.45);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Recessed Inset Card (Kile gömülmüş çukur panel) */
+.clay-inset {
+  background: #0b101d;
+  border-radius: 1rem;
+  box-shadow: 
+    inset 4px 4px 10px rgba(0, 0, 0, 0.65),
+    inset -2px -2px 6px rgba(255, 255, 255, 0.02),
+    0 1px 2px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+/* Tactile Clay Input Field */
+.clay-input {
+  background: #090e1a;
+  border-radius: 0.875rem;
+  box-shadow: 
+    inset 3px 3px 7px rgba(0, 0, 0, 0.7),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.03),
+    0 1px 1px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(30, 41, 59, 0.7);
+  transition: all 0.2s ease;
+}
+
+.clay-input:focus {
+  border-color: #6366f1;
+  box-shadow: 
+    inset 3px 3px 7px rgba(0, 0, 0, 0.8),
+    0 0 0 3px rgba(99, 102, 241, 0.25);
+  outline: none;
+}
+
+/* Primary Clay Button (Raised with 3D bottom bevel) */
+.clay-btn-primary {
+  background: linear-gradient(145deg, #6366f1, #4338ca);
+  border-radius: 0.875rem;
+  box-shadow: 
+    4px 6px 14px rgba(67, 56, 202, 0.4),
+    -2px -2px 6px rgba(255, 255, 255, 0.15),
+    inset 2px 2px 3px rgba(255, 255, 255, 0.3),
+    inset -2px -4px 6px rgba(0, 0, 0, 0.35);
+  border-bottom: 3px solid #312e81;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-btn-primary:hover {
+  filter: brightness(1.06);
+}
+
+.clay-btn-primary:active {
+  transform: translateY(2px);
+  border-bottom-width: 1px;
+  box-shadow: 
+    2px 3px 8px rgba(67, 56, 202, 0.3),
+    inset 2px 2px 5px rgba(0, 0, 0, 0.4);
+}
+
+/* Secondary / Charcoal Clay Button */
+.clay-btn-secondary {
+  background: linear-gradient(145deg, #1e293b, #131b2e);
+  border-radius: 0.875rem;
+  box-shadow: 
+    3px 4px 10px rgba(0, 0, 0, 0.35),
+    -2px -2px 6px rgba(255, 255, 255, 0.04),
+    inset 1.5px 1.5px 2px rgba(255, 255, 255, 0.1),
+    inset -2px -3px 5px rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid #0b101d;
+  transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.clay-btn-secondary:hover {
+  background: linear-gradient(145deg, #243248, #18233c);
+}
+
+.clay-btn-secondary:active {
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  box-shadow: 
+    1px 2px 5px rgba(0, 0, 0, 0.3),
+    inset 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+/* Clay Stepper Buttons (+ and - buttons) */
+.clay-stepper-btn {
+  background: #1a233a;
+  border-radius: 0.5rem;
+  box-shadow: 
+    2px 3px 6px rgba(0, 0, 0, 0.4),
+    -1px -1px 3px rgba(255, 255, 255, 0.05),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.12),
+    inset -1px -2px 3px rgba(0, 0, 0, 0.4);
+  border-bottom: 2px solid #0f1523;
+  transition: all 0.1s ease;
+}
+
+.clay-stepper-btn:active {
+  transform: translateY(1px);
+  border-bottom-width: 1px;
+  box-shadow: inset 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+/* Active Segmented Pill (Basılmış hap buton) */
+.clay-pill-active {
+  background: #23304c;
+  color: #a5b4fc;
+  box-shadow: 
+    inset 2px 2px 5px rgba(0, 0, 0, 0.5),
+    inset -1px -1px 3px rgba(255, 255, 255, 0.06),
+    0 1px 1px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(99, 102, 241, 0.35);
+}
+
+/* Inactive Segmented Pill (Kabarık hap buton) */
+.clay-pill-inactive {
+  background: #101626;
+  color: #94a3b8;
+  box-shadow: 
+    2px 3px 6px rgba(0, 0, 0, 0.35),
+    -1px -1px 3px rgba(255, 255, 255, 0.03),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.08),
+    inset -1px -2px 3px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.clay-pill-inactive:hover {
+  color: #cbd5e1;
+  background: #141b2e;
+}
+
+/* Hero Price Clay Card */
+.clay-hero-card {
+  background: linear-gradient(135deg, #1b2541 0%, #151d33 60%, #1c1a3a 100%);
+  border-radius: 2rem;
+  box-shadow: 
+    14px 18px 36px -4px rgba(0, 0, 0, 0.65),
+    -6px -6px 18px rgba(255, 255, 255, 0.04),
+    inset 2.5px 2.5px 4px rgba(255, 255, 255, 0.15),
+    inset -4px -5px 12px rgba(0, 0, 0, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Clay Stat Cushion Card (İstatistik yastığı) */
+.clay-stat-cushion {
+  background: #0f1526;
+  border-radius: 1.125rem;
+  box-shadow: 
+    4px 5px 12px rgba(0, 0, 0, 0.4),
+    -2px -2px 6px rgba(255, 255, 255, 0.02),
+    inset 1.5px 1.5px 2.5px rgba(255, 255, 255, 0.08),
+    inset -2px -3px 5px rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+/* Custom Clay Range Slider */
+input[type="range"].clay-slider {
+  -webkit-appearance: none;
+  appearance: none;
+  background: #090e1a;
+  height: 10px;
+  border-radius: 9999px;
+  box-shadow: 
+    inset 2px 2px 4px rgba(0, 0, 0, 0.7),
+    inset -1px -1px 2px rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+input[type="range"].clay-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #818cf8, #4f46e5);
+  cursor: pointer;
+  box-shadow: 
+    2px 3px 6px rgba(0, 0, 0, 0.4),
+    -1px -1px 3px rgba(255, 255, 255, 0.2),
+    inset 1px 1px 2px rgba(255, 255, 255, 0.4),
+    inset -1px -2px 3px rgba(0, 0, 0, 0.4);
+  border: 2px solid #312e81;
+  transition: transform 0.1s ease;
+}
+
+input[type="range"].clay-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.12);
+}
+
+input[type="range"].clay-slider::-webkit-slider-thumb:active {
+  transform: scale(0.95);
+}
+
+/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.6);
+  background: rgba(11, 16, 29, 0.8);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(71, 85, 105, 0.5);
+  background: rgba(49, 65, 96, 0.6);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.8);
+  background: rgba(79, 102, 148, 0.8);
 }
 
-/* Print optimizations for quote summary export */
+/* Print optimizations */
 @media print {
   body {
     background: white !important;
@@ -49,4 +255,3 @@
     page-break-inside: avoid;
   }
 }
-
