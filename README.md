@@ -30,16 +30,32 @@
   - **Light Mode**: Warm porcelain clay palette with soft pillowy cards and subtle blue-gray inner cavity shadows.
   - **Dark Mode**: Deep charcoal matte clay palette with soft neon ambient reflections.
   - One-click instant theme toggle with zero-flash early initialization.
-- 🌐 **Multi-Language (i18n)**: Seamless instant switching between **English (EN)** and **Turkish (TR)** with localized currency and duration formatting.
+- 🌍 **Multilingual Support (4 Languages)**:
+  - 🇹🇷 **Türkçe (TR)**
+  - 🇬🇧 **English (EN)**
+  - 🇩🇪 **Deutsch (DE)**
+  - 🇫🇷 **Français (FR)**
+  - Includes smart browser language auto-detection and localized date/number formatters.
+- 💱 **Real-Time Live Exchange Rate Engine**:
+  - Automatically fetches live currency rates (`open.er-api.com`) with localStorage caching and offline fallbacks.
+  - Seamless live conversion across `TRY (₺)`, `USD ($)`, `EUR (€)`, and `GBP (£)` for all monetary inputs simultaneously.
+- ⚙️ **Tactile Settings Modal (`SettingsModal.tsx`)**:
+  - Centralized management for Themes, Languages, Currencies, Live Rate status, PWA App installation, and Factory Reset.
+  - Keeps the top header minimal, clean, and distraction-free.
 - ⚡ **Instant Real-Time Calculations**: Every parameter adjustment instantly recalculates base cost, failure buffer, markup, and hourly unit prices.
 - 🧵 **Extensive Hardware & Filament Presets**:
-  - **Printers**: Bambu Lab (X1C, P1S, A1, A1 Mini), Creality (Ender 3 V3, K1 Max), Anycubic (Kobra S1, Kobra 3 Combo, Kobra 2 Pro/Neo, Photon Mono M5s), Prusa (MK4S), Elegoo (Neptune 4 Pro).
+  - **Printers**: Anycubic (Kobra S1, Kobra 3 Combo, Kobra 2 Pro, Kobra 2 Neo, Photon Mono M5s), Bambu Lab (X1C, P1S, A1, A1 Mini), Creality (Ender 3 V3, K1 Max), Prusa (MK4S), Elegoo (Neptune 4 Pro).
   - **Filaments**: PLA, PLA+, PETG, ABS, TPU, ASA, Carbon Fiber PLA, UV Resin with automatic spool usage meters.
+- 🎛️ **Custom 3D Dropdowns (`ClaySelect.tsx`)**:
+  - Custom tactile extruded dropdowns replacing flat native browser selects, with studio-shadowed floating menus and technical power/cost badges.
 - 📊 **3D Cylindrical Cost Breakdown**: Visual segmented cylinder bar chart and tactile stat cushions breaking down every cost component.
-- 📜 **Formula Transparency**: Built-in interactive formula table detailing step-by-step arithmetic for client transparency.
+- 📜 **Formula Transparency (`FormulaBreakdown.tsx`)**: Built-in interactive formula table detailing step-by-step arithmetic for client transparency.
 - 💾 **Profile Management & JSON Backup**: Save custom print configurations to `localStorage`, switch between profiles, and export/import JSON backups.
 - 📄 **Printable Quotation & PDF Generator**: Generate clean, professional quotations (`window.print()`) with optional toggles for internal company cost breakdowns.
-- 📱 **PWA Offline-First**: Installable to iOS, Android, macOS, and Windows with background service worker caching.
+- 📱 **Mobile-First Responsive UX**:
+  - Segmented top tab switcher (`MobileTabNav.tsx`) for fast parameter and result switching on smaller screens.
+  - Floating sticky bottom price bar (`MobileBottomBar.tsx`) providing one-tap navigation to results and PDF quote exports.
+- 🚀 **CI/CD & Release Automation**: GitHub Actions for linting/building with Node 22, Dependabot security updates, automated GitHub Pages deployment, and Release Please v4 automated changelogs.
 
 ---
 
@@ -86,14 +102,14 @@ $$\text{Price}_{\text{final}} = \text{Cost}_{\text{risk}} \times \left(1 + \frac
 ## 🚀 Quick Start
 
 ### Prerequisites
-- Node.js `18.0.0` or higher
+- Node.js `20.0.0` or `22.0.0`
 - npm `9.0.0` or higher (or pnpm / yarn / bun)
 
 ### Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/your-username/layer-cost.git
+   git clone https://github.com/AtaCanYmc/layer-cost.git
    cd layer-cost
    ```
 
@@ -125,66 +141,86 @@ $$\text{Price}_{\text{final}} = \text{Cost}_{\text{risk}} \times \left(1 + \frac
 
 ```text
 layer-cost/
-├── public/                     # Static PWA assets, icons, manifest
-│   ├── banner.png              # 3D Clay product banner
-│   ├── favicon.svg             # App favicon
-│   ├── pwa-192x192.svg         # PWA icon (192px)
-│   └── pwa-512x512.svg         # PWA icon (512px)
-├── docs/                       # Documentation assets
-│   └── banner.png
+├── .github/
+│   ├── dependabot.yml           # Automated dependency update configuration
+│   └── workflows/
+│       ├── ci.yml               # Automated lint & build verification
+│       ├── deploy.yml           # GitHub Pages deployment workflow
+│       └── release-please.yml   # Release Please automated versioning
+├── public/                      # Static PWA assets, icons, manifest
+│   ├── banner.png               # 3D Clay product banner
+│   ├── logo.png                 # 3D Clay product logo
+│   ├── favicon.svg              # App favicon
+│   ├── site.webmanifest         # PWA web manifest
+│   ├── pwa-192x192.svg          # PWA icon (192px)
+│   └── pwa-512x512.svg          # PWA icon (512px)
+├── docs/                        # Documentation assets
+│   ├── banner.png
+│   └── logo.png
 ├── src/
-│   ├── assets/                 # React component assets
-│   ├── components/             # Clay UI React components
+│   ├── components/              # React components
+│   │   ├── ui/                  # Atomic SOLID Clay UI Kit
+│   │   │   ├── ClayCard.tsx         # Extruded 3D container card
+│   │   │   ├── ClayHeader.tsx       # Section header with preset select
+│   │   │   ├── ClayInputField.tsx   # Labeled input with unit & hints
+│   │   │   ├── ClaySelect.tsx       # Custom 3D tactile dropdown
+│   │   │   ├── ClaySliderField.tsx  # Touch-friendly slider with margin pills
+│   │   │   └── ClayStepperField.tsx # Touch stepper controls
 │   │   ├── CostBreakdownChart.tsx   # 3D cylindrical segmented bar chart
 │   │   ├── FilamentSection.tsx      # Spool price, weight, type selectors
-│   │   ├── Header.tsx               # Brand, theme, language & currency controls
+│   │   ├── FormulaBreakdown.tsx     # Step-by-step formula transparency table
+│   │   ├── Header.tsx               # Minimal top brand & action bar
 │   │   ├── LaborSection.tsx         # Post-processing time, wage & extra costs
+│   │   ├── MobileBottomBar.tsx      # Sticky floating price bar for mobile
+│   │   ├── MobileTabNav.tsx         # Segmented mobile parameter/results switcher
 │   │   ├── PricingRiskSection.tsx   # Failure buffer, profit markup & client info
 │   │   ├── PrinterSection.tsx       # Power, slicer time, depreciation & presets
 │   │   ├── QuoteExportModal.tsx     # Printable PDF quotation sheet
-│   │   ├── ResultsOverview.tsx      # Hero sale card, cushions & formula table
-│   │   └── SavedProfilesModal.tsx   # Profile templates & JSON import/export
+│   │   ├── ResultsOverview.tsx      # Hero sale card & cost cushions
+│   │   ├── SavedProfilesModal.tsx   # Profile templates & JSON import/export
+│   │   └── SettingsModal.tsx        # Centralized settings (Theme, Lang, Currency, PWA)
 │   ├── data/
-│   │   └── presets.ts          # Printer and filament benchmark data
+│   │   └── presets.ts           # Benchmark printer and filament catalog
 │   ├── i18n/
-│   │   └── translations.ts     # English & Turkish translation dictionaries
+│   │   └── translations.ts      # TR, EN, DE, FR translation dictionaries
 │   ├── types/
-│   │   └── calculator.ts       # TypeScript interfaces & types
+│   │   └── calculator.ts        # TypeScript interfaces and data models
 │   ├── utils/
-│   │   └── calculator.ts       # Mathematical calculation & formatting engine
-│   ├── App.tsx                 # Root application component & state sync
-│   ├── index.css               # Claymorphism design system & Tailwind v4 rules
-│   └── main.tsx                # Application entry point
-├── index.html                  # HTML5 shell & zero-flash theme bootstrap
-├── package.json                # Project dependencies & scripts
-├── tsconfig.json               # TypeScript compiler configuration
-├── vite.config.ts              # Vite & VitePWA plugin configuration
-├── CONTRIBUTING.md             # Contribution guidelines
-├── CHANGELOG.md                # Release notes & version history
-├── SECURITY.md                 # Security reporting policy
-└── LICENSE                     # MIT License
+│   │   ├── calculator.ts        # Mathematical costing & formatting algorithms
+│   │   └── currency.ts          # Real-time exchange rate engine
+│   ├── App.tsx                  # Main application orchestrator
+│   ├── main.tsx                 # React DOM root entry point
+│   └── index.css                # Tailwind v4 styles & Claymorphism utility classes
+├── release-please-config.json   # Release Please configuration
+├── .release-please-manifest.json# Release Please version tracker
+├── vite.config.ts               # Vite & PWA build configuration
+└── package.json                 # Project dependencies and npm scripts
 ```
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please read [CONTRIBUTING.md](./CONTRIBUTING.md) for details on our code of conduct and the submission process.
+Contributions, issues, and feature requests are welcome! Feel free to check the [Contributing Guide](./CONTRIBUTING.md).
 
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'feat: add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'feat: Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
 5. Open a Pull Request
+
+---
+
+## 🔒 Security
+
+For security vulnerabilities and reporting, please refer to [SECURITY.md](./SECURITY.md).
 
 ---
 
 ## 📄 License
 
-This project is open-source and licensed under the [MIT License](./LICENSE).
-
----
+Distributed under the **MIT License**. See [`LICENSE`](./LICENSE) for more information.
 
 <div align="center">
-  <sub>Crafted with precision for the 3D printing community.</sub>
+  <sub>Built with ❤️ for the 3D Printing & Maker Community.</sub>
 </div>
