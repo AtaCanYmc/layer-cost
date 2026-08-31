@@ -33,7 +33,7 @@
 - 🌐 **Multi-Language (i18n)**: Seamless instant switching between **English (EN)** and **Turkish (TR)** with localized currency and duration formatting.
 - ⚡ **Instant Real-Time Calculations**: Every parameter adjustment instantly recalculates base cost, failure buffer, markup, and hourly unit prices.
 - 🧵 **Extensive Hardware & Filament Presets**:
-  - **Printers**: Bambu Lab (X1C, P1S, A1, A1 Mini), Creality (Ender 3 V3, K1 Max), Anycubic (Kobra 3 Combo, Kobra 2 Pro/Neo, Photon Mono M5s), Prusa (MK4S), Elegoo (Neptune 4 Pro).
+  - **Printers**: Bambu Lab (X1C, P1S, A1, A1 Mini), Creality (Ender 3 V3, K1 Max), Anycubic (Kobra S1, Kobra 3 Combo, Kobra 2 Pro/Neo, Photon Mono M5s), Prusa (MK4S), Elegoo (Neptune 4 Pro).
   - **Filaments**: PLA, PLA+, PETG, ABS, TPU, ASA, Carbon Fiber PLA, UV Resin with automatic spool usage meters.
 - 📊 **3D Cylindrical Cost Breakdown**: Visual segmented cylinder bar chart and tactile stat cushions breaking down every cost component.
 - 📜 **Formula Transparency**: Built-in interactive formula table detailing step-by-step arithmetic for client transparency.

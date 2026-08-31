@@ -83,6 +83,14 @@ export const PRINTER_PRESETS: PrinterPreset[] = [
     lifespanHours: 3500,
   },
   {
+    id: 'anycubic-kobra-s1',
+    name: 'Anycubic Kobra S1 / S1 Combo',
+    brand: 'Anycubic',
+    powerWatt: 350,
+    price: 23500,
+    lifespanHours: 4500,
+  },
+  {
     id: 'anycubic-kobra-3',
     name: 'Anycubic Kobra 3 Combo',
     brand: 'Anycubic',
