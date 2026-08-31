@@ -23,6 +23,7 @@ interface HeaderProps {
   installPrompt: Event | null;
   onInstallApp: () => void;
   isStandalone: boolean;
+  isRatesLive?: boolean;
 }
 
 export const Header: React.FC<HeaderProps> = ({
@@ -38,6 +39,7 @@ export const Header: React.FC<HeaderProps> = ({
   installPrompt,
   onInstallApp,
   isStandalone,
+  isRatesLive,
 }) => {
   const { t } = useTranslation(lang);
 
@@ -108,8 +110,11 @@ export const Header: React.FC<HeaderProps> = ({
             )}
           </button>
 
-          {/* Tactile Currency Switcher */}
-          <div className="clay-inset p-1 rounded-xl flex items-center gap-1">
+          {/* Tactile Currency Switcher with Live Rate Indicator */}
+          <div 
+            className="clay-inset p-1 rounded-xl flex items-center gap-1 relative group"
+            title={isRatesLive ? `${t('liveRates')} (Active)` : 'Rates (Fallback)'}
+          >
             {(['TRY', 'USD', 'EUR', 'GBP'] as Currency[]).map((curr) => (
               <button
                 key={curr}
@@ -124,6 +129,12 @@ export const Header: React.FC<HeaderProps> = ({
                 {curr === 'TRY' ? '₺ TL' : curr === 'USD' ? '$ USD' : curr === 'EUR' ? '€ EUR' : '£ GBP'}
               </button>
             ))}
+            {isRatesLive && (
+              <span 
+                className="w-1.5 h-1.5 rounded-full bg-emerald-500 shadow-[0_0_6px_rgba(16,185,129,0.8)] absolute -top-0.5 -right-0.5" 
+                title={t('liveRates')}
+              />
+            )}
           </div>
 
           {/* Profiles Button */}

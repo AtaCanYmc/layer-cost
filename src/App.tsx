@@ -24,9 +24,15 @@ import {
   QuoteExportModal 
 } from './components/QuoteExportModal';
 
-import type { CalculationInputs, InputValue, SavedProfile, Language, Theme } from './types/calculator';
+import type { CalculationInputs, InputValue, SavedProfile, Language, Theme, Currency } from './types/calculator';
 import { DEFAULT_INPUTS, type PrinterPreset, type FilamentPreset } from './data/presets';
 import { calculateCost } from './utils/calculator';
+import { 
+  getCachedExchangeRates, 
+  fetchLiveExchangeRates, 
+  convertAllMonetaryInputs,
+  type ExchangeRates 
+} from './utils/currency';
 import { useTranslation } from './i18n/translations';
 import { 
   Wifi, 
@@ -146,6 +152,10 @@ export function App() {
     ];
   });
 
+  // Exchange Rates State
+  const [exchangeRates, setExchangeRates] = useState<ExchangeRates>(getCachedExchangeRates);
+  const [isRatesLive, setIsRatesLive] = useState(false);
+
   // Modal States
   const [isProfilesOpen, setIsProfilesOpen] = useState(false);
   const [isQuoteOpen, setIsQuoteOpen] = useState(false);
@@ -162,6 +172,14 @@ export function App() {
     }
     return false;
   });
+
+  // Fetch live exchange rates on mount
+  useEffect(() => {
+    fetchLiveExchangeRates().then(({ rates, isLive }) => {
+      setExchangeRates(rates);
+      setIsRatesLive(isLive);
+    });
+  }, []);
 
   useEffect(() => {
     const handleOnline = () => setIsOnline(true);
@@ -190,6 +208,20 @@ export function App() {
     setTimeout(() => {
       setToastMessage(null);
     }, 3000);
+  };
+
+  // Currency Conversion Handler (Converts monetary inputs with live exchange rates)
+  const handleCurrencyChange = (newCurrency: Currency) => {
+    if (newCurrency === inputs.currency) return;
+    const oldCurrency = inputs.currency;
+    const converted = convertAllMonetaryInputs(inputs, newCurrency, exchangeRates);
+    setInputs(converted);
+    try {
+      localStorage.setItem(STORAGE_KEY_INPUTS, JSON.stringify(converted));
+    } catch (e) {
+      console.warn('Storage error on currency change:', e);
+    }
+    showToast(`${oldCurrency} → ${newCurrency}: ${t('currencyConvertedToast')}`);
   };
 
   // Save current inputs to LocalStorage
@@ -351,7 +383,7 @@ export function App() {
       {/* Main Header */}
       <Header
         currency={inputs.currency}
-        onCurrencyChange={(curr) => handleInputChange('currency', curr)}
+        onCurrencyChange={handleCurrencyChange}
         lang={lang}
         onLanguageChange={handleLanguageChange}
         theme={theme}
@@ -362,6 +394,7 @@ export function App() {
         installPrompt={installPrompt}
         onInstallApp={handleInstallApp}
         isStandalone={isStandalone}
+        isRatesLive={isRatesLive}
       />
 
       {/* Main Content Layout */}
