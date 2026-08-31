@@ -1,4 +1,4 @@
-import type { CalculationInputs, CalculationResults, Currency } from '../types/calculator';
+import type { CalculationInputs, CalculationResults, Currency, Language } from '../types/calculator';
 
 export const calculateCost = (inputs: CalculationInputs): CalculationResults => {
   // 1. Baskı Süresi (Toplam Saat)
@@ -73,7 +73,7 @@ export const calculateCost = (inputs: CalculationInputs): CalculationResults => 
   };
 };
 
-export const formatCurrency = (amount: number, currency: Currency = 'TRY'): string => {
+export const formatCurrency = (amount: number, currency: Currency = 'TRY', lang: Language = 'tr'): string => {
   const symbols: Record<Currency, string> = {
     TRY: '₺',
     USD: '$',
@@ -81,18 +81,30 @@ export const formatCurrency = (amount: number, currency: Currency = 'TRY'): stri
     GBP: '£',
   };
 
-  const formatted = new Intl.NumberFormat('tr-TR', {
+  const locale = lang === 'en' ? 'en-US' : 'tr-TR';
+
+  const formatted = new Intl.NumberFormat(locale, {
     minimumFractionDigits: 2,
     maximumFractionDigits: 2,
   }).format(isNaN(amount) ? 0 : amount);
 
+  if (lang === 'en') {
+    return `${symbols[currency] || '$'}${formatted}`;
+  }
   return `${formatted} ${symbols[currency] || '₺'}`;
 };
 
-export const formatHoursMinutes = (hours: number, minutes: number): string => {
+export const formatHoursMinutes = (hours: number, minutes: number, lang: Language = 'tr'): string => {
   const totalMins = Math.round(hours * 60 + minutes);
   const h = Math.floor(totalMins / 60);
   const m = totalMins % 60;
+  
+  if (lang === 'en') {
+    if (h === 0) return `${m} min`;
+    if (m === 0) return `${h} hrs`;
+    return `${h} hrs ${m} min`;
+  }
+
   if (h === 0) return `${m} dk`;
   if (m === 0) return `${h} sa`;
   return `${h} sa ${m} dk`;

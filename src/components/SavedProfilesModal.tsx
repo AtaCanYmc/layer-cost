@@ -8,7 +8,8 @@ import {
   Plus, 
   HardDrive
 } from 'lucide-react';
-import type { SavedProfile } from '../types/calculator';
+import type { Language, SavedProfile } from '../types/calculator';
+import { useTranslation } from '../i18n/translations';
 
 interface SavedProfilesModalProps {
   isOpen: boolean;
@@ -19,6 +20,7 @@ interface SavedProfilesModalProps {
   onDeleteProfile: (id: string) => void;
   onExportProfiles: () => void;
   onImportProfiles: (jsonStr: string) => void;
+  lang: Language;
 }
 
 export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
@@ -30,7 +32,9 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
   onDeleteProfile,
   onExportProfiles,
   onImportProfiles,
+  lang,
 }) => {
+  const { t } = useTranslation(lang);
   const [newProfileName, setNewProfileName] = useState('');
   const [importError, setImportError] = useState<string | null>(null);
 
@@ -54,29 +58,29 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
         onImportProfiles(text);
         setImportError(null);
       } catch {
-        setImportError('Geçersiz profil JSON dosyası!');
+        setImportError(t('invalidJson'));
       }
     };
     reader.readAsText(file);
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#070b14]/80 backdrop-blur-md animate-fadeIn">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 dark:bg-[#070b14]/80 backdrop-blur-md animate-fadeIn">
       <div className="clay-card w-full max-w-xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]">
         {/* Modal Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-[#0c1220]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-[#0c1220]">
           <div className="flex items-center gap-3">
             <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-purple-500 to-indigo-600 shadow-[2px_3px_8px_rgba(168,85,247,0.35),inset_1.5px_1.5px_2px_rgba(255,255,255,0.3)] flex items-center justify-center">
               <Bookmark className="w-4 h-4 text-white" />
             </div>
             <div>
-              <h2 className="text-base font-extrabold text-white">Kayıtlı Profiller</h2>
-              <p className="text-xs text-slate-400 font-medium">Yazıcı, malzeme ve maliyet şablonlarınızı yönetin</p>
+              <h2 className="text-base font-extrabold text-slate-900 dark:text-white">{t('profilesTitle')}</h2>
+              <p className="text-xs text-slate-500 dark:text-slate-400 font-medium">{t('profilesSubtitle')}</p>
             </div>
           </div>
           <button
             onClick={onClose}
-            className="clay-stepper-btn p-2 text-slate-400 hover:text-white cursor-pointer"
+            className="clay-stepper-btn p-2 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white cursor-pointer"
           >
             <X className="w-4 h-4" />
           </button>
@@ -86,16 +90,16 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
         <div className="p-6 overflow-y-auto space-y-6">
           {/* Save Current as New Profile Form */}
           <form onSubmit={handleSave} className="clay-inset p-4 rounded-2xl">
-            <label className="block text-xs font-bold text-slate-200 mb-2 uppercase tracking-wider text-[11px]">
-              Mevcut Ayarları Yeni Profil Olarak Kaydet
+            <label className="block text-xs font-bold text-slate-700 dark:text-slate-200 mb-2 uppercase tracking-wider text-[11px]">
+              {t('saveAsNewProfile')}
             </label>
             <div className="flex gap-2">
               <input
                 type="text"
-                placeholder="Profil adı (örn: Bambu P1S - Hızlı PLA)"
+                placeholder={t('profileNamePlaceholder')}
                 value={newProfileName}
                 onChange={(e) => setNewProfileName(e.target.value)}
-                className="clay-input flex-1 px-3.5 py-2 text-xs text-white placeholder-slate-500 font-medium"
+                className="clay-input flex-1 px-3.5 py-2 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 font-medium"
               />
               <button
                 type="submit"
@@ -103,21 +107,21 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
                 className="clay-btn-primary px-4 py-2 disabled:opacity-50 text-white text-xs font-extrabold flex items-center gap-1.5 cursor-pointer"
               >
                 <Plus className="w-4 h-4" />
-                <span>Kaydet</span>
+                <span>{t('saveBtn')}</span>
               </button>
             </div>
           </form>
 
           {/* Saved Profiles List */}
           <div>
-            <h3 className="text-xs font-extrabold text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
-              <HardDrive className="w-3.5 h-3.5 text-slate-400" />
-              <span>Kayıtlı Profiller ({savedProfiles.length})</span>
+            <h3 className="text-xs font-extrabold text-slate-500 dark:text-slate-400 uppercase tracking-wider mb-3 flex items-center gap-2">
+              <HardDrive className="w-3.5 h-3.5" />
+              <span>{t('savedProfilesList')} ({savedProfiles.length})</span>
             </h3>
 
             {savedProfiles.length === 0 ? (
               <div className="text-center py-8 clay-inset rounded-2xl text-slate-500 text-xs font-medium">
-                Henüz özel bir profil kaydetmediniz. Yukarıdaki formu kullanarak mevcut ayarlarınızı kaydedebilirsiniz.
+                {t('noProfiles')}
               </div>
             ) : (
               <div className="space-y-2.5">
@@ -128,19 +132,19 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
                   >
                     <div className="min-w-0 flex-1 pr-3">
                       <div className="flex items-center gap-2">
-                        <span className="font-extrabold text-slate-200 text-xs truncate">
+                        <span className="font-extrabold text-slate-800 dark:text-slate-200 text-xs truncate">
                           {profile.name}
                         </span>
                         {profile.data.printerName && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full clay-inset text-slate-400 font-mono">
+                          <span className="text-[10px] px-2 py-0.5 rounded-full clay-inset text-slate-600 dark:text-slate-400 font-mono">
                             {profile.data.printerName}
                           </span>
                         )}
                       </div>
                       <div className="text-[10px] text-slate-500 mt-1 flex items-center gap-3 font-medium">
-                        <span>Filament: {profile.data.filamentType || 'PLA'}</span>
-                        <span>Kar: %{profile.data.profitMarginPercent ?? 40}</span>
-                        <span>{new Date(profile.updatedAt).toLocaleDateString('tr-TR')}</span>
+                        <span>{t('filamentItem')}: {profile.data.filamentType || 'PLA'}</span>
+                        <span>{t('netProfit')}: %{profile.data.profitMarginPercent ?? 40}</span>
+                        <span>{new Date(profile.updatedAt).toLocaleDateString(lang === 'en' ? 'en-US' : 'tr-TR')}</span>
                       </div>
                     </div>
 
@@ -153,13 +157,13 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
                         }}
                         className="clay-btn-primary px-3.5 py-1.5 text-white text-xs font-extrabold cursor-pointer"
                       >
-                        Yükle
+                        {t('loadBtn')}
                       </button>
                       <button
                         type="button"
                         onClick={() => onDeleteProfile(profile.id)}
-                        className="clay-stepper-btn p-2 text-slate-400 hover:text-rose-400 cursor-pointer"
-                        title="Profili Sil"
+                        className="clay-stepper-btn p-2 text-slate-400 hover:text-rose-500 cursor-pointer"
+                        title={t('deleteBtn')}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </button>
@@ -171,20 +175,20 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
           </div>
 
           {/* Import / Export JSON */}
-          <div className="pt-3 border-t border-slate-800 flex flex-wrap items-center justify-between gap-3">
+          <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex flex-wrap items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <button
                 type="button"
                 onClick={onExportProfiles}
-                className="clay-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-300 cursor-pointer"
+                className="clay-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold cursor-pointer"
               >
-                <Download className="w-3.5 h-3.5 text-slate-400" />
-                <span>JSON Dışa Aktar</span>
+                <Download className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                <span>{t('exportJson')}</span>
               </button>
 
-              <label className="clay-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold text-slate-300 cursor-pointer">
-                <Upload className="w-3.5 h-3.5 text-slate-400" />
-                <span>JSON İçe Aktar</span>
+              <label className="clay-btn-secondary inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-bold cursor-pointer">
+                <Upload className="w-3.5 h-3.5 text-slate-500 dark:text-slate-400" />
+                <span>{t('importJson')}</span>
                 <input
                   type="file"
                   accept=".json"
@@ -195,7 +199,7 @@ export const SavedProfilesModal: React.FC<SavedProfilesModalProps> = ({
             </div>
 
             {importError && (
-              <span className="text-[11px] text-rose-400 font-bold">{importError}</span>
+              <span className="text-[11px] text-rose-500 dark:text-rose-400 font-bold">{importError}</span>
             )}
           </div>
         </div>

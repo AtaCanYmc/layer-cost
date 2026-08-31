@@ -1,4 +1,6 @@
 export type Currency = 'TRY' | 'USD' | 'EUR' | 'GBP';
+export type Language = 'tr' | 'en';
+export type Theme = 'dark' | 'light';
 
 export interface CalculationInputs {
   // Proje Bilgileri

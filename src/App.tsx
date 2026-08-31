@@ -24,9 +24,10 @@ import {
   QuoteExportModal 
 } from './components/QuoteExportModal';
 
-import type { CalculationInputs, InputValue, SavedProfile } from './types/calculator';
+import type { CalculationInputs, InputValue, SavedProfile, Language, Theme } from './types/calculator';
 import { DEFAULT_INPUTS, type PrinterPreset, type FilamentPreset } from './data/presets';
 import { calculateCost } from './utils/calculator';
+import { useTranslation } from './i18n/translations';
 import { 
   Wifi, 
   WifiOff, 
@@ -46,8 +47,70 @@ interface BeforeInstallPromptEvent extends Event {
 
 const STORAGE_KEY_INPUTS = 'layercost_inputs_v1';
 const STORAGE_KEY_PROFILES = 'layercost_profiles_v1';
+const STORAGE_KEY_THEME = 'layercost_theme_v1';
+const STORAGE_KEY_LANG = 'layercost_lang_v1';
 
 export function App() {
+  // Theme State
+  const [theme, setTheme] = useState<Theme>(() => {
+    try {
+      const savedTheme = localStorage.getItem(STORAGE_KEY_THEME) as Theme;
+      if (savedTheme === 'dark' || savedTheme === 'light') return savedTheme;
+      if (typeof window !== 'undefined' && window.matchMedia('(prefers-color-scheme: light)').matches) {
+        return 'light';
+      }
+    } catch {
+      // fallback
+    }
+    return 'dark';
+  });
+
+  // Language State
+  const [lang, setLang] = useState<Language>(() => {
+    try {
+      const savedLang = localStorage.getItem(STORAGE_KEY_LANG) as Language;
+      if (savedLang === 'tr' || savedLang === 'en') return savedLang;
+      if (typeof navigator !== 'undefined' && !navigator.language.startsWith('tr')) {
+        return 'en';
+      }
+    } catch {
+      // fallback
+    }
+    return 'tr';
+  });
+
+  const { t } = useTranslation(lang);
+
+  // Sync theme with <html> class
+  useEffect(() => {
+    const root = document.documentElement;
+    if (theme === 'dark') {
+      root.classList.add('dark');
+      root.classList.remove('light');
+    } else {
+      root.classList.add('light');
+      root.classList.remove('dark');
+    }
+    try {
+      localStorage.setItem(STORAGE_KEY_THEME, theme);
+    } catch {
+      // ignore
+    }
+  }, [theme]);
+
+  const handleToggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
+
+  const handleLanguageChange = (newLang: Language) => {
+    setLang(newLang);
+    try {
+      localStorage.setItem(STORAGE_KEY_LANG, newLang);
+    } catch {
+      // ignore
+    }
+  };
+
   // 1. Initial State from LocalStorage
   const [inputs, setInputs] = useState<CalculationInputs>(() => {
     try {
@@ -133,7 +196,7 @@ export function App() {
   const handleSaveToLocalStorage = () => {
     try {
       localStorage.setItem(STORAGE_KEY_INPUTS, JSON.stringify(inputs));
-      showToast('Mevcut ayarlar başarıyla LocalStorage\'a kaydedildi!');
+      showToast(t('savedToast'));
     } catch (e) {
       console.error('Save error:', e);
     }
@@ -167,7 +230,7 @@ export function App() {
       printerPrice: preset.price,
       printerLifespanHours: preset.lifespanHours,
     }));
-    showToast(`"${preset.name}" yazıcı ayarları uygulandı.`);
+    showToast(`"${preset.name}" ${t('profileLoadedToast')}`);
   };
 
   const handleApplyFilamentPreset = (preset: FilamentPreset) => {
@@ -177,19 +240,19 @@ export function App() {
       spoolPrice: preset.spoolPrice,
       spoolWeight: preset.spoolWeight,
     }));
-    showToast(`"${preset.name}" filament ayarları uygulandı.`);
+    showToast(`"${preset.name}" ${t('profileLoadedToast')}`);
   };
 
   // Reset to default
   const handleReset = () => {
-    if (window.confirm('Tüm değerleri varsayılan fabrika ayarlarına sıfırlamak istediğinize emin misiniz?')) {
+    if (window.confirm(t('resetConfirm'))) {
       setInputs(DEFAULT_INPUTS);
       try {
         localStorage.setItem(STORAGE_KEY_INPUTS, JSON.stringify(DEFAULT_INPUTS));
       } catch (e) {
         console.warn('Reset storage warning:', e);
       }
-      showToast('Değerler varsayılana sıfırlandı.');
+      showToast(t('resetToast'));
     }
   };
 
@@ -211,7 +274,7 @@ export function App() {
     } catch (e) {
       console.warn('Save profile storage warning:', e);
     }
-    showToast(`"${name}" profili kaydedildi.`);
+    showToast(`"${name}" ${t('profileSavedToast')}`);
   };
 
   const handleLoadProfile = (profile: SavedProfile) => {
@@ -219,7 +282,7 @@ export function App() {
       ...prev,
       ...profile.data,
     }));
-    showToast(`"${profile.name}" profili yüklendi.`);
+    showToast(`"${profile.name}" ${t('profileLoadedToast')}`);
   };
 
   const handleDeleteProfile = (id: string) => {
@@ -230,7 +293,7 @@ export function App() {
     } catch (e) {
       console.warn('Delete profile storage warning:', e);
     }
-    showToast('Profil silindi.');
+    showToast(t('profileDeletedToast'));
   };
 
   const handleExportProfiles = () => {
@@ -245,7 +308,7 @@ export function App() {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `layercost-yedek-${new Date().toISOString().slice(0, 10)}.json`;
+    a.download = `layercost-backup-${new Date().toISOString().slice(0, 10)}.json`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -259,9 +322,9 @@ export function App() {
         setInputs(parsed.currentInputs);
         localStorage.setItem(STORAGE_KEY_INPUTS, JSON.stringify(parsed.currentInputs));
       }
-      showToast('Profiller başarıyla içe aktarıldı!');
+      showToast(t('importSuccessToast'));
     } else {
-      throw new Error('Geçersiz dosya formatı');
+      throw new Error(t('invalidJson'));
     }
   };
 
@@ -276,11 +339,11 @@ export function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#070b14] text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white">
+    <div className="min-h-screen bg-[#f0f4f9] dark:bg-[#070b14] text-slate-900 dark:text-slate-100 flex flex-col font-sans selection:bg-indigo-500 selection:text-white transition-colors duration-300">
       {/* Tactile Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 clay-card px-5 py-3.5 text-white text-xs font-bold shadow-2xl animate-bounce">
-          <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+        <div className="fixed bottom-5 right-5 z-50 flex items-center gap-2.5 clay-card px-5 py-3.5 text-slate-900 dark:text-white text-xs font-bold shadow-2xl animate-bounce">
+          <CheckCircle2 className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
           <span>{toastMessage}</span>
         </div>
       )}
@@ -289,6 +352,10 @@ export function App() {
       <Header
         currency={inputs.currency}
         onCurrencyChange={(curr) => handleInputChange('currency', curr)}
+        lang={lang}
+        onLanguageChange={handleLanguageChange}
+        theme={theme}
+        onToggleTheme={handleToggleTheme}
         onReset={handleReset}
         onOpenProfiles={() => setIsProfilesOpen(true)}
         onOpenQuote={() => setIsQuoteOpen(true)}
@@ -305,13 +372,13 @@ export function App() {
           <div className="lg:col-span-7 space-y-6">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <SlidersHorizontal className="w-4 h-4 text-indigo-400" />
-                <h2 className="text-xs font-extrabold uppercase tracking-wider text-slate-300">
-                  Maliyet & Baskı Parametreleri
+                <SlidersHorizontal className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+                <h2 className="text-xs font-extrabold uppercase tracking-wider text-slate-700 dark:text-slate-300">
+                  {t('calcParamsTitle')}
                 </h2>
               </div>
               <span className="text-xs text-slate-500 font-medium">
-                Değişiklikler anlık hesaplanır
+                {t('instantCalc')}
               </span>
             </div>
 
@@ -320,6 +387,7 @@ export function App() {
               inputs={inputs}
               onChange={handleInputChange}
               onApplyPreset={handleApplyPrinterPreset}
+              lang={lang}
             />
 
             {/* 2. Filament & Malzeme */}
@@ -327,18 +395,21 @@ export function App() {
               inputs={inputs}
               onChange={handleInputChange}
               onApplyPreset={handleApplyFilamentPreset}
+              lang={lang}
             />
 
             {/* 3. İşçilik & Ekstralar */}
             <LaborSection
               inputs={inputs}
               onChange={handleInputChange}
+              lang={lang}
             />
 
             {/* 4. Risk, Kar Marjı & Proje */}
             <PricingRiskSection
               inputs={inputs}
               onChange={handleInputChange}
+              lang={lang}
             />
           </div>
 
@@ -348,6 +419,7 @@ export function App() {
               inputs={inputs}
               results={results}
               currency={inputs.currency}
+              lang={lang}
               onSaveProfile={handleSaveToLocalStorage}
               onOpenQuote={() => setIsQuoteOpen(true)}
             />
@@ -366,6 +438,7 @@ export function App() {
         onDeleteProfile={handleDeleteProfile}
         onExportProfiles={handleExportProfiles}
         onImportProfiles={handleImportProfiles}
+        lang={lang}
       />
 
       <QuoteExportModal
@@ -374,28 +447,29 @@ export function App() {
         inputs={inputs}
         results={results}
         currency={inputs.currency}
+        lang={lang}
       />
 
       {/* Modern Clay Footer */}
-      <footer className="border-t border-slate-900 bg-[#070b14]/90 mt-12 py-6 text-xs text-slate-500 no-print">
+      <footer className="border-t border-slate-200 dark:border-slate-900 bg-slate-100/80 dark:bg-[#070b14]/90 mt-12 py-6 text-xs text-slate-500 no-print transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <Layers className="w-4 h-4 text-indigo-400" />
-            <span className="font-bold text-slate-300">LayerCost</span>
-            <span>— Dokunsal 3D Baskı Maliyet & Fiyatlandırma Sistemi</span>
+            <Layers className="w-4 h-4 text-indigo-600 dark:text-indigo-400" />
+            <span className="font-bold text-slate-800 dark:text-slate-300">LayerCost</span>
+            <span>— {t('footerText')}</span>
           </div>
 
           <div className="flex items-center gap-4">
             <div className="flex items-center gap-2 clay-inset px-3 py-1 rounded-full">
               {isOnline ? (
                 <>
-                  <Wifi className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400 font-bold text-[11px]">PWA Çevrimiçi</span>
+                  <Wifi className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+                  <span className="text-emerald-600 dark:text-emerald-400 font-bold text-[11px]">{t('online')}</span>
                 </>
               ) : (
                 <>
-                  <WifiOff className="w-3.5 h-3.5 text-amber-400" />
-                  <span className="text-amber-400 font-bold text-[11px]">PWA Çevrimdışı Aktif</span>
+                  <WifiOff className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
+                  <span className="text-amber-600 dark:text-amber-400 font-bold text-[11px]">{t('offline')}</span>
                 </>
               )}
             </div>
