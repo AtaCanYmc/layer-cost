@@ -5,14 +5,15 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  base: '/layer-cost/',
   plugins: [
     react(),
     tailwindcss(),
     VitePWA({
       registerType: 'autoUpdate',
-      includeAssets: ['favicon.svg', 'pwa-192x192.svg', 'pwa-512x512.svg'],
+      includeAssets: ['favicon.svg', 'favicon-96x96.png', 'favicon.ico', 'apple-touch-icon.png', 'logo.png'],
       manifest: {
-        name: '3D Baskı Maliyet Hesaplayıcı',
+        name: '3D Baskı Maliyet Hesaplayıcı | LayerCost',
         short_name: 'LayerCost',
         description: '3D Yazıcı Filament, Elektrik, İşçilik ve Kar Maliyet Hesaplayıcı',
         theme_color: '#0f172a',
@@ -21,27 +22,27 @@ export default defineConfig({
         orientation: 'portrait-primary',
         icons: [
           {
-            src: '/pwa-192x192.svg',
+            src: 'web-app-manifest-192x192.png',
             sizes: '192x192',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any'
           },
           {
-            src: '/pwa-512x512.svg',
+            src: 'web-app-manifest-512x512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'any'
           },
           {
-            src: '/pwa-512x512.svg',
+            src: 'web-app-manifest-512x512.png',
             sizes: '512x512',
-            type: 'image/svg+xml',
+            type: 'image/png',
             purpose: 'maskable'
           }
         ]
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2}']
+        globPatterns: ['**/*.{js,css,html,svg,png,ico,woff2,webmanifest}']
       }
     })
   ],

@@ -49,7 +49,7 @@ export const Header: React.FC<HeaderProps> = ({
         {/* Brand with 3D Clay Logo */}
         <div className="flex items-center gap-3">
           <div className="w-11 h-11 rounded-2xl overflow-hidden shadow-[4px_5px_12px_rgba(79,70,229,0.35),inset_2px_2px_3px_rgba(255,255,255,0.35),inset_-2px_-3px_5px_rgba(0,0,0,0.4)] flex items-center justify-center bg-[#23304c] p-0.5">
-            <img src="/logo.png" alt="LayerCost Logo" className="w-full h-full object-cover rounded-[14px]" />
+            <img src={`${import.meta.env.BASE_URL}logo.png`} alt="LayerCost Logo" className="w-full h-full object-cover rounded-[14px]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
